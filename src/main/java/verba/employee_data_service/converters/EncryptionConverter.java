@@ -1,4 +1,4 @@
-package converters;
+package verba.employee_data_service.converters;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
@@ -22,7 +22,7 @@ public class EncryptionConverter implements AttributeConverter<String, String> {
     private final SecureRandom secureRandom = new SecureRandom();
 
     public EncryptionConverter() {
-        String encodedKey = System.getenv("APP_ENCRYPTION_KEY");
+        String encodedKey = System.getenv("ENCRYPTION_KEY");
         if (encodedKey == null || encodedKey.isBlank()) {
             throw new IllegalStateException("Missing required environment variable: APP_ENCRYPTION_KEY");
         }

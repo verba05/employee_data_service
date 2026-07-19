@@ -1,13 +1,13 @@
-package model;
+package verba.employee_data_service.model;
 
 import java.time.LocalDate;
 
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
-import converters.EncryptionConverter;
 import lombok.Getter;
 import lombok.Setter;
+import verba.employee_data_service.converters.EncryptionConverter;
 import jakarta.persistence.*;
 
 @Getter
@@ -21,21 +21,21 @@ public class EmployeeRecord {
     @Column(name = "id", nullable = false, unique = true)
     private Integer id;
 
-    @Column(name = "firstName", nullable = false)
+    @Column(name = "firstname", nullable = false)
     private String firstName;
     
-    @Column(name = "lastName", nullable = false)
+    @Column(name = "lastname", nullable = false)
     private String lastName;
 
-    @Column(name = "dateOfBirth", nullable = false)
+    @Column(name = "dateofbirth", nullable = false)
     private LocalDate dateOfBirth;
 
     @Enumerated(EnumType.STRING)
     @JdbcTypeCode(SqlTypes.NAMED_ENUM)
-    @Column(name = "gender", nullable = false)
+    @Column(name = "gender", columnDefinition = "gender", nullable = false)
     private Gender gender;
 
     @Convert(converter = EncryptionConverter.class)
-    @Column(name = "encryptedSSN", nullable = false)
+    @Column(name = "encryptedssn", nullable = false)
     private String socialSecurityNumber; 
 }
