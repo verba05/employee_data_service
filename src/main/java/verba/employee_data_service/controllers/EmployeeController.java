@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import verba.employee_data_service.dtos.EmployeeRecordDto;
 import verba.employee_data_service.model.EmployeeRecord;
 import verba.employee_data_service.model.Gender;
 import verba.employee_data_service.services.EmployeeService;
@@ -29,7 +30,7 @@ public class EmployeeController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public EmployeeRecord getEmployeeRecordById(@PathVariable Integer id) {
+    public EmployeeRecordDto getEmployeeRecordById(@PathVariable Integer id) {
         try {
             return employeeService.getEmployeeRecordById(id);
         } catch (NoSuchElementException e) {
@@ -50,7 +51,7 @@ public class EmployeeController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "size must be a positive integer");
         }
 
-        Page<EmployeeRecord> result = employeeService.getEmployeeRecords(page, size);
+        Page<EmployeeRecordDto> result = employeeService.getEmployeeRecords(page, size);
 
         Map<String, Object> body = new HashMap<>();
         body.put("content", result.getContent());
@@ -65,7 +66,7 @@ public class EmployeeController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public EmployeeRecord createEmployeeRecord(@RequestBody EmployeeRecord entity) {
+    public EmployeeRecordDto createEmployeeRecord(@RequestBody EmployeeRecord entity) {
         List<String> errors = validate(entity);
         if (!errors.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.join("; ", errors));
@@ -75,7 +76,7 @@ public class EmployeeController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public EmployeeRecord updateEmployeeRecord(@PathVariable Integer id, @RequestBody EmployeeRecord entity) {
+    public EmployeeRecordDto updateEmployeeRecord(@PathVariable Integer id, @RequestBody EmployeeRecord entity) {
         List<String> errors = validate(entity);
         if (!errors.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.join("; ", errors));

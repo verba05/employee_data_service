@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import verba.employee_data_service.dtos.EmployeeRecordDto;
 import verba.employee_data_service.model.EmployeeRecord;
 import verba.employee_data_service.repos.EmployeeRecordRepository;
 
@@ -21,26 +22,30 @@ public class EmployeeService {
     }
 
     @Transactional(readOnly = true)
-    public EmployeeRecord getEmployeeRecordById(Integer id) {
-        return employeeRecordRepository.findById(id)
+    public EmployeeRecordDto getEmployeeRecordById(Integer id) {
+        EmployeeRecord record = employeeRecordRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Employee not found with id: " + id));
+        return EmployeeRecordDto.fromRecord(record);
     }
 
     @Transactional(readOnly = true)
-    public Page<EmployeeRecord> getEmployeeRecords(int page, int size) {
+    public Page<EmployeeRecordDto> getEmployeeRecords(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        return employeeRecordRepository.findAll(pageable);
+        return employeeRecordRepository.findAll(pageable).map(EmployeeRecordDto::fromRecord);
     }
 
     @Transactional
-    public EmployeeRecord createEmployeeRecord(EmployeeRecord entity) {
+    public EmployeeRecordDto createEmployeeRecord(EmployeeRecord entity) {
         entity.setId(null);
-        return employeeRecordRepository.save(entity);
+        EmployeeRecord saved = employeeRecordRepository.save(entity);
+        return EmployeeRecordDto.fromRecord(saved);
     }
 
     @Transactional
-    public EmployeeRecord updateEmployeeRecord(Integer id, EmployeeRecord changes) {
-        EmployeeRecord existing = getEmployeeRecordById(id);
+    public EmployeeRecordDto updateEmployeeRecord(Integer id, EmployeeRecord changes) {
+        EmployeeRecord existing = employeeRecordRepository.findById(id)
+                .orElseThrow(() ->
+                        new NoSuchElementException("Employee not found with id: " + id));
 
         if (changes.getFirstName() != null) existing.setFirstName(changes.getFirstName());
         if (changes.getLastName() != null) existing.setLastName(changes.getLastName());
@@ -48,7 +53,8 @@ public class EmployeeService {
         if (changes.getGender() != null) existing.setGender(changes.getGender());
         if (changes.getSocialSecurityNumber() != null) existing.setSocialSecurityNumber(changes.getSocialSecurityNumber());
 
-        return employeeRecordRepository.save(existing);
+        EmployeeRecord updated = employeeRecordRepository.save(existing);
+        return EmployeeRecordDto.fromRecord(updated);
     }
 
     @Transactional
