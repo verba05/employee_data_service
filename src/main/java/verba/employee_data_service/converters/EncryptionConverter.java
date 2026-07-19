@@ -24,7 +24,7 @@ public class EncryptionConverter implements AttributeConverter<String, String> {
     public EncryptionConverter() {
         String encodedKey = System.getenv("ENCRYPTION_KEY");
         if (encodedKey == null || encodedKey.isBlank()) {
-            throw new IllegalStateException("Missing required environment variable: APP_ENCRYPTION_KEY");
+            throw new IllegalStateException("Missing required environment variable: ENCRYPTION_KEY");
         }
         this.secretKey = new SecretKeySpec(Base64.getDecoder().decode(encodedKey), "AES");
     }
