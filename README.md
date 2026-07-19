@@ -19,11 +19,11 @@
 
    Example `.env` file (ready to copy and use for local testing):
 ```dotenv
-   POSTGRES_USER=postgres
-   POSTGRES_PASSWORD=postgres
-   POSTGRES_DB=employee-data-service-db
-   POSTGRES_URL=jdbc:postgresql://postgres:5432/employee-data-service-db
-   ENCRYPTION_KEY=mRdTor//Lh8Np+qQQu+o9XA/MJaSFyYl4eE/AWeVWn0=
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+POSTGRES_DB=employee-data-service-db
+POSTGRES_URL=jdbc:postgresql://postgres:5432/employee-data-service-db
+ENCRYPTION_KEY=mRdTor//Lh8Np+qQQu+o9XA/MJaSFyYl4eE/AWeVWn0=
 ```
 
 3. **Start the whole app** (database + Spring Boot service) with a single command:
