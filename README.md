@@ -55,7 +55,7 @@ I used Claude and GitHub Copilot as coding assistants throughout this project.
 
 I used them for:
 - Building the SSN encryption converter and figuring out the right approach for encrypting/decrypting automatically.
-- Writing and refining `EmployeeController` and `EmployeeService`, going back and forth a few times until the behavior matched what I wanted.
+- Writing and refining EmployeeController and EmployeeService until the behavior matched what I wanted.
 - Adding data format restriction annotations to the entity and adding validation functions for checking it to the controller.
 - Generating unit tests for the controller, service, and encryption logic, then adjusting them as the code changed.
 - Simplifying `EmployeeService`'s update logic from two separate methods for partial and full updates to a just one with universal update function.
