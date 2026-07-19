@@ -6,7 +6,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import verba.employee_data_service.dtos.EmployeeRecordDto;
 import verba.employee_data_service.model.EmployeeRecord;
@@ -21,27 +20,23 @@ public class EmployeeService {
         this.employeeRecordRepository = employeeRecordRepository;
     }
 
-    @Transactional(readOnly = true)
     public EmployeeRecordDto getEmployeeRecordById(Integer id) {
         EmployeeRecord record = employeeRecordRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Employee not found with id: " + id));
         return EmployeeRecordDto.fromRecord(record);
     }
 
-    @Transactional(readOnly = true)
     public Page<EmployeeRecordDto> getEmployeeRecords(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         return employeeRecordRepository.findAll(pageable).map(EmployeeRecordDto::fromRecord);
     }
 
-    @Transactional
     public EmployeeRecordDto createEmployeeRecord(EmployeeRecord entity) {
         entity.setId(null);
         EmployeeRecord saved = employeeRecordRepository.save(entity);
         return EmployeeRecordDto.fromRecord(saved);
     }
 
-    @Transactional
     public EmployeeRecordDto updateEmployeeRecord(Integer id, EmployeeRecord changes) {
         EmployeeRecord existing = employeeRecordRepository.findById(id)
                 .orElseThrow(() ->
@@ -57,7 +52,6 @@ public class EmployeeService {
         return EmployeeRecordDto.fromRecord(updated);
     }
 
-    @Transactional
     public void deleteEmployeeById(Integer id) {
         if (!employeeRecordRepository.existsById(id)) {
             throw new NoSuchElementException("Employee not found with id: " + id);
